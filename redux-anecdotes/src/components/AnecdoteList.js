@@ -25,17 +25,20 @@ const AnecdoteList = () => {
   const dispatch = useDispatch()
   return (
     <div>
-      {anecdotes.map(anecdote =>
-        <Anecdote
-          key={anecdote.id}
-          anecdote={anecdote}
-          handleVote={() => {
-            dispatch(vote(anecdote.id))
-            dispatch(setNotification(`you voted '${anecdote.content}'`))
-            setTimeout(() => {dispatch(removeNotification())}, 5000)
-          }}
-        />
-      )}
+      {anecdotes          
+        .sort((a, b) => ( b.votes - a.votes ))
+        .map(anecdote =>
+          <Anecdote
+            key={anecdote.id}
+            anecdote={anecdote}
+            handleVote={() => {
+              dispatch(vote(anecdote))
+              dispatch(setNotification(`you voted '${anecdote.content}'`))
+              setTimeout(() => {dispatch(removeNotification())}, 5000)
+            }}
+          />
+        )
+      }
     </div>
   )
 }
